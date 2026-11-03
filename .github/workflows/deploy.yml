@@ -1,0 +1,51 @@
+# Builds the site and publishes it to GitHub Pages on every push to main.
+# One-time setup: repo Settings → Pages → Build and deployment → Source: "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # lets you re-run it by hand from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time; a newer push cancels an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build site into _site/
+        run: |
+          mkdir -p _site
+          # Copy everything that belongs on the website (skips repo/tooling files).
+          rsync -a \
+            --exclude '.git*' --exclude '.github' --exclude '_site' \
+            --exclude 'deploy.sh' --exclude 'README.md' \
+            ./ _site/
+          # Stamp the commit SHA so deploy.sh can tell when this exact version is live.
+          sed -i "0,/<\/head>/s//  <meta name=\"build\" content=\"${GITHUB_SHA}\">\n<\/head>/" _site/index.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
