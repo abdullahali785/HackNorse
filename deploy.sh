@@ -103,8 +103,11 @@ step "Waiting for GitHub Pages to publish (usually 30–90s)…"
 echo "   Watch the build: $ACTIONS_URL"
 START=$(date +%s)
 while true; do
-  # cache-busting query string so we don't get a stale CDN copy
-  if curl -fsSL "${SITE_URL}?v=${SHA}&t=$(date +%s)" 2>/dev/null | grep -q "content=\"${SHA}\""; then
+  # cache-busting query string so we don't get a stale CDN copy.
+  # Download fully first: piping curl into `grep -q` breaks under pipefail
+  # (grep exits on the first match, curl gets SIGPIPE, the check "fails").
+  PAGE="$(curl -fsSL "${SITE_URL}?v=${SHA}&t=$(date +%s)" 2>/dev/null || true)"
+  if [[ "$PAGE" == *"content=\"${SHA}\""* ]]; then
     echo
     ok "${bold}Live!${reset} ${SITE_URL}"
     if command -v open >/dev/null 2>&1; then open "$SITE_URL"; fi
