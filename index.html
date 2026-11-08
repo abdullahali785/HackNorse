@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HackNorse 2026 · Luther College's First Hackathon</title>
-  <meta name="description" content="HackNorse is Luther College's first-ever hackathon. November 20–21, 2026 in Olin 102. Free, teams of 2–3, open to current Luther students of every major and skill level.">
+  <meta name="description" content="HackNorse is Luther College's first-ever hackathon. November 20–21, 2026 in Olin 102. Free, teams of 2–3, no coding experience required. Open to current Luther students of every major and skill level.">
   <meta name="theme-color" content="#070b12">
   <meta property="og:title" content="HackNorse 2026 · Luther College's First Hackathon">
-  <meta property="og:description" content="Raid the problem. Ship the solution. November 20–21, 2026 · Olin 102 · Free for Luther students.">
+  <meta property="og:description" content="No coding experience required. November 20–21, 2026 · Olin 102 · Free for Luther students.">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z' fill='%230a5cb8' stroke='%23f2b544' stroke-width='1.5'/%3E%3Cpath d='M9 9l3 3-3 3M13 15h3' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 
@@ -216,6 +216,18 @@
     }
     @keyframes blink { 50% { opacity: 0; } }
 
+    /* "No coding experience required" badge: deliberately loud */
+    .no-code-badge {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--accent); color: var(--accent-ink);
+      font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+      font-size: clamp(1.25rem, 5.2vw, 1.6rem); letter-spacing: .03em; line-height: 1.1;
+      padding: .65rem 1.1rem; border-radius: 12px; margin: 0 0 1.75rem;
+      box-shadow: 0 0 0 4px rgba(242,181,68,.18), 0 12px 32px -12px rgba(242,181,68,.7);
+    }
+    .no-code-badge svg { width: 1.3em; height: 1.3em; flex: none; }
+    .final-cta .no-code-badge { margin: 0 0 1.5rem; max-width: none; color: var(--accent-ink); font-size: clamp(1.1rem, 4.6vw, 1.4rem); }
+
     .hero-facts { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1.5rem; margin: 0 0 2rem; }
     .hero-facts div { border-left: 2px solid var(--luther-blue); padding-left: .75rem; }
     .hero-facts dt { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
@@ -358,6 +370,10 @@
       background: linear-gradient(180deg, rgba(10,92,184,.45), rgba(10,92,184,.12));
       height: 56px;
     }
+    .prize sup { color: var(--accent); font-size: .6em; margin-left: .1em; }
+    .prize-sub { margin: .5rem 0 0; font-size: .9rem; color: var(--text-muted); }
+    .prize-note { margin: 1.5rem 0 0; text-align: center; color: var(--text-muted); font-size: .95rem; }
+    .prize-note span { color: var(--accent); font-weight: 700; }
     .podium-place.first .podium-card { border-color: rgba(242,181,68,.6); box-shadow: 0 0 0 1px rgba(242,181,68,.2), 0 20px 50px -25px rgba(242,181,68,.55); }
     .podium-place.first .prize { color: var(--accent); font-size: 2.1rem; }
     .podium-place.first .podium-step { background: linear-gradient(180deg, rgba(242,181,68,.55), rgba(242,181,68,.12)); color: var(--accent-ink); }
@@ -520,6 +536,7 @@
           <p class="hero-runes rune" aria-hidden="true">ᚺᚨᚲᚲ·ᚾᛟᚱᛊᛖ</p>
           <h1 id="hero-title">Hack<span class="blue">Norse</span></h1>
           <p class="tagline">Raid the problem. Ship the solution.<span class="cursor" aria-hidden="true"></span></p>
+          <p class="no-code-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No coding experience required</p>
 
           <dl class="hero-facts">
             <div><dt>Dates</dt><dd>November 20–21, 2026</dd></div>
@@ -601,7 +618,7 @@
           <p class="kicker"><span class="rune" aria-hidden="true">ᚨ</span>// 01 · about</p>
           <h2 id="about-title">Luther's first hackathon</h2>
           <p style="margin-top:1.25rem">HackNorse is Luther College's first-ever hackathon: a 24-ish-hour sprint where you team up, pick a track, and build something real from scratch.</p>
-          <p>It's completely free and open to every major and every skill level, from first-time coders to seasoned devs. Bring your curiosity, and leave with a working project, new friends, and maybe a prize.</p>
+          <p>It's completely free, <strong>no coding experience is required</strong>, and it's open to every major and every skill level, from first-time coders to seasoned devs. Bring your curiosity, and leave with a working project, new friends, and maybe a prize.</p>
         </div>
         <ul class="stats reveal">
           <li class="card stat"><b>~24</b><span>hours to build</span></li>
@@ -715,7 +732,7 @@
             <div class="card podium-card">
               <div class="medal" aria-hidden="true">🥇</div>
               <h3>1st Place</h3>
-              <p class="prize">GTA VI Pro Version</p>
+              <p class="prize">GTA 6<sup aria-hidden="true">*</sup></p>
             </div>
             <div class="podium-step" aria-hidden="true">1</div>
           </li>
@@ -723,7 +740,8 @@
             <div class="card podium-card">
               <div class="medal" aria-hidden="true">🥈</div>
               <h3>2nd Place</h3>
-              <p class="prize">ONN Noise Canceling Headphones for each team member</p>
+              <p class="prize">Headphones<sup aria-hidden="true">*</sup></p>
+              <p class="prize-sub">One pair for each team member</p>
             </div>
             <div class="podium-step" aria-hidden="true">2</div>
           </li>
@@ -731,11 +749,13 @@
             <div class="card podium-card">
               <div class="medal" aria-hidden="true">🥉</div>
               <h3>3rd Place</h3>
-              <p class="prize">$50 Walmart gift card</p>
+              <p class="prize">$50 gift card<sup aria-hidden="true">*</sup></p>
             </div>
             <div class="podium-step" aria-hidden="true">3</div>
           </li>
         </ol>
+        <!-- Prize footnote (the * on each prize points here) -->
+        <p class="prize-note reveal"><span aria-hidden="true">*</span> Don't want these prizes? Let us know and we'll get you something else.</p>
       </div>
     </section>
 
@@ -913,6 +933,7 @@
       <div class="container reveal">
         <p class="runes-row rune" aria-hidden="true">ᚠᚢᚦᚨᚱᚲ</p>
         <h2 id="cta-title">Ready to <span class="blue">raid?</span></h2>
+        <p class="no-code-badge" style="margin-top:1.5rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No coding experience required</p>
         <p>Grab a team (or let us find you one) and claim your spot at Luther's first hackathon. It's free.</p>
         <a class="btn btn-primary btn-lg" data-signup href="#" target="_blank" rel="noopener noreferrer">
           Sign Up
