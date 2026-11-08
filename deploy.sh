@@ -93,7 +93,7 @@ if [[ "$AHEAD" -eq 0 ]]; then
   exit 0
 fi
 
-step "Pushing $AHEAD commit(s) to $BRANCH…"
+step "Pushing $AHEAD commit(s) to ${BRANCH}…"
 git push -q origin "$BRANCH"
 SHA="$(git rev-parse HEAD)"
 ok "Pushed ${SHA:0:7}."
