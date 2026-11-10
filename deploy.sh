@@ -52,6 +52,14 @@ if [[ "$(echo "$REPO" | tr '[:upper:]' '[:lower:]')" == "${OWNER_LC}.github.io" 
 else
   SITE_URL="https://${OWNER_LC}.github.io/${REPO}/"
 fi
+# Custom domain: if the CNAME file names a domain that already resolves, check the site there.
+# (Until DNS is set up, this falls back to the github.io URL above.)
+if [[ -f CNAME ]]; then
+  DOMAIN="$(tr -d '[:space:]' < CNAME)"
+  if [[ -n "$DOMAIN" ]] && host "$DOMAIN" >/dev/null 2>&1; then
+    SITE_URL="https://${DOMAIN}/"
+  fi
+fi
 ACTIONS_URL="https://github.com/${OWNER}/${REPO}/actions"
 
 # ---------- 1. sanity checks ("build") ----------
@@ -106,7 +114,9 @@ while true; do
   # cache-busting query string so we don't get a stale CDN copy.
   # Download fully first: piping curl into `grep -q` breaks under pipefail
   # (grep exits on the first match, curl gets SIGPIPE, the check "fails").
-  PAGE="$(curl -fsSL "${SITE_URL}?v=${SHA}&t=$(date +%s)" 2>/dev/null || true)"
+  # (Falls back to http:// in case a new custom domain's HTTPS certificate isn't issued yet.)
+  Q="?v=${SHA}&t=$(date +%s)"
+  PAGE="$(curl -fsSL "${SITE_URL}${Q}" 2>/dev/null || curl -fsSL "${SITE_URL/https:/http:}${Q}" 2>/dev/null || true)"
   if [[ "$PAGE" == *"content=\"${SHA}\""* ]]; then
     echo
     ok "${bold}Live!${reset} ${SITE_URL}"
